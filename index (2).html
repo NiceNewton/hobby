@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Creative World</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --cream: #f5f0e8;
+    --warm: #e8dcc8;
+    --accent: #c9622f;
+    --gold: #d4a843;
+    --muted: #8a7d6e;
+    --card-bg: #faf7f2;
+    --shadow: rgba(26,20,16,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid var(--warm);
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 1.2rem auto 0;
+  }
+
+  .site-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .site-subtitle {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.6rem 2rem;
+    border-bottom: 1px solid var(--warm);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.3rem;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.2s ease;
+    border: 1.5px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: #b5521f;
+    border-color: #b5521f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(201,98,47,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HOBBY SECTION */
+  .hobby-section {
+    margin-bottom: 5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hobby-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--warm);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .hobby-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hobby-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .hobby-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .hobby-count {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 0.3rem;
+  }
+
+  .hobby-actions {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* IMAGE CARD */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--warm);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px var(--shadow);
+  }
+
+  .card-img-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 75%;
+    background: var(--warm);
+    overflow: hidden;
+  }
+
+  .card-img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover .card-img-wrap img {
+    transform: scale(1.04);
+  }
+
+  .card-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 2.5rem;
+  }
+
+  .card-body {
+    padding: 1rem 1.1rem 1.2rem;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--ink);
+  }
+
+  .card-date {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .card-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: rgba(26,20,16,0.65);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+  }
+
+  .card:hover .card-delete {
+    display: flex;
+  }
+
+  .card-delete:hover {
+    background: var(--accent);
+  }
+
+  /* POEM CARD */
+  .poem-card {
+    background: var(--card-bg);
+    border: 1px solid var(--warm);
+    border-radius: 4px;
+    padding: 1.6rem 1.8rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .poem-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--warm);
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .poem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px var(--shadow);
+  }
+
+  .poem-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+
+  .poem-text {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: #4a3f35;
+    white-space: pre-wrap;
+    font-style: italic;
+    max-height: 160px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .poem-date {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-top: 1rem;
+  }
+
+  .poem-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(26,20,16,0.12);
+    border: none;
+    border-radius: 50%;
+    color: var(--muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .poem-card:hover .poem-delete {
+    display: flex;
+  }
+
+  .poem-delete:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* POEM GRID */
+  .poem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3.5rem 2rem;
+    border: 1.5px dashed var(--warm);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+
+  .empty-state .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.5;
+  }
+
+  .empty-state p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* DELETE HOBBY */
+  .hobby-section .btn-ghost {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    letter-spacing: 0.04em;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+  }
+
+  .hobby-section .btn-ghost:hover {
+    color: var(--accent);
+  }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,20,16,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--cream);
+    border: 1px solid var(--warm);
+    border-radius: 6px;
+    padding: 2.4rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+    position: relative;
+  }
+
+  .modal-overlay.active .modal {
+    transform: translateY(0);
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+
+  .modal-subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover { color: var(--ink); }
+
+  .form-group {
+    margin-bottom: 1.3rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.45rem;
+  }
+
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--warm);
+    border-radius: 3px;
+    background: white;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.7;
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7d6e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    cursor: pointer;
+  }
+
+  .file-input-wrap {
+    border: 1.5px dashed var(--warm);
+    border-radius: 3px;
+    padding: 1.6rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .file-input-wrap:hover {
+    border-color: var(--accent);
+    background: rgba(201,98,47,0.03);
+  }
+
+  .file-input-wrap input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .file-input-wrap .file-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .file-input-wrap .file-label span {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .file-preview {
+    margin-top: 0.8rem;
+    max-height: 150px;
+    border-radius: 3px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .file-preview img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+
+  .form-footer {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+    justify-content: flex-end;
+  }
+
+  /* ICON PICKER */
+  .icon-picker {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
+  .icon-opt {
+    width: 42px;
+    height: 42px;
+    border: 1.5px solid var(--warm);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .icon-opt:hover, .icon-opt.selected {
+    border-color: var(--accent);
+    background: rgba(201,98,47,0.07);
+    transform: scale(1.08);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.8rem 1.4rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    z-index: 999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .hobby-header { flex-direction: column; align-items: flex-start; }
+    .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    .poem-grid { grid-template-columns: 1fr; }
+    .modal { padding: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="site-title">My Creative World</h1>
+  <p class="site-subtitle">A personal gallery of passions &amp; pursuits</p>
+</header>
+
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="openAddHobbyModal()">＋ Add New Hobby</button>
+</div>
+
+<main id="hobbies-container"></main>
+
+<!-- ADD HOBBY MODAL -->
+<div class="modal-overlay" id="addHobbyModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addHobbyModal')">✕</button>
+    <h2 class="modal-title">New Hobby</h2>
+    <p class="modal-subtitle">Give your hobby a name and a character</p>
+
+    <div class="form-group">
+      <label>Hobby Name</label>
+      <input type="text" id="hobbyName" placeholder="e.g. Watercolour, Poetry, Travel..." />
+    </div>
+
+    <div class="form-group">
+      <label>Type</label>
+      <select id="hobbyType">
+        <option value="image">Image Gallery (photos, drawings, artwork)</option>
+        <option value="poem">Text / Poems / Writing</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Pick an Icon</label>
+      <div class="icon-picker" id="iconPicker">
+        <div class="icon-opt selected" data-icon="🎨">🎨</div>
+        <div class="icon-opt" data-icon="📷">📷</div>
+        <div class="icon-opt" data-icon="✍️">✍️</div>
+        <div class="icon-opt" data-icon="🎵">🎵</div>
+        <div class="icon-opt" data-icon="🌿">🌿</div>
+        <div class="icon-opt" data-icon="📖">📖</div>
+        <div class="icon-opt" data-icon="🧵">🧵</div>
+        <div class="icon-opt" data-icon="🎭">🎭</div>
+        <div class="icon-opt" data-icon="🍳">🍳</div>
+        <div class="icon-opt" data-icon="🌺">🌺</div>
+        <div class="icon-opt" data-icon="✏️">✏️</div>
+        <div class="icon-opt" data-icon="🔭">🔭</div>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-outline" onclick="closeModal('addHobbyModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveHobby()">Create Hobby</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD IMAGE ITEM MODAL -->
+<div class="modal-overlay" id="addImageModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addImageModal')">✕</button>
+    <h2 class="modal-title" id="addImageTitle">Add to Gallery</h2>
+    <p class="modal-subtitle">Upload an image and give it a title</p>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="itemTitle" placeholder="Name this piece..." />
+    </div>
+
+    <div class="form-group">
+      <label>Upload Image</label>
+      <div class="file-input-wrap" id="fileDropZone">
+        <input type="file" accept="image/*" id="imageUpload" onchange="handleImagePreview(event)" />
+        <div class="file-label">Drop image here or <span>browse to upload</span></div>
+      </div>
+      <div class="file-preview" id="imagePreview">
+        <img id="previewImg" src="" alt="preview" />
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-outline" onclick="closeModal('addImageModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveImageItem()">Add to Gallery</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD POEM MODAL -->
+<div class="modal-overlay" id="addPoemModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addPoemModal')">✕</button>
+    <h2 class="modal-title" id="addPoemTitle">Add a Poem</h2>
+    <p class="modal-subtitle">Write or paste your piece below</p>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="poemTitle" placeholder="Give your poem a name..." />
+    </div>
+
+    <div class="form-group">
+      <label>Content</label>
+      <textarea id="poemContent" placeholder="Write your poem here...&#10;&#10;Line breaks will be preserved."></textarea>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-outline" onclick="closeModal('addPoemModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePoemItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─── STATE ───────────────────────────────────────────────────────────────
+  let hobbies = JSON.parse(localStorage.getItem('myHobbies') || '[]');
+
+  // Seed defaults if first visit
+  if (hobbies.length === 0) {
+    hobbies = [
+      { id: uid(), name: 'Art', icon: '🎨', type: 'image', items: [] },
+      { id: uid(), name: 'Poem', icon: '✍️', type: 'poem', items: [] },
+      { id: uid(), name: 'Photography', icon: '📷', type: 'image', items: [] },
+    ];
+    save();
+  }
+
+  let activeHobbyId = null;
+  let selectedIcon = '🎨';
+
+  // ─── UTILITIES ──────────────────────────────────────────────────────────
+  function uid() { return Math.random().toString(36).slice(2, 10); }
+
+  function save() {
+    localStorage.setItem('myHobbies', JSON.stringify(hobbies));
+  }
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  function fmt(ts) {
+    return new Date(ts).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // ─── RENDER ─────────────────────────────────────────────────────────────
+  function render() {
+    const c = document.getElementById('hobbies-container');
+    c.innerHTML = '';
+
+    if (hobbies.length === 0) {
+      c.innerHTML = `<div style="text-align:center;padding:5rem 2rem;color:var(--muted)">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🌱</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--ink);margin-bottom:0.5rem">Your canvas is empty</p>
+        <p style="font-size:0.9rem">Click <strong>+ Add New Hobby</strong> to begin your creative journey.</p>
+      </div>`;
+      return;
+    }
+
+    hobbies.forEach((h, hIdx) => {
+      const section = document.createElement('section');
+      section.className = 'hobby-section';
+      section.style.animationDelay = hIdx * 0.08 + 's';
+
+      const addBtn = h.type === 'image'
+        ? `<button class="btn btn-primary" onclick="openAddImageModal('${h.id}')">＋ Add Image</button>`
+        : `<button class="btn btn-primary" onclick="openAddPoemModal('${h.id}')">＋ Add ${h.name}</button>`;
+
+      section.innerHTML = `
+        <div class="hobby-header">
+          <div class="hobby-title-wrap">
+            <span class="hobby-icon">${h.icon}</span>
+            <div>
+              <h2 class="hobby-name">${h.name}</h2>
+              <span class="hobby-count">${h.items.length} piece${h.items.length !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+          <div class="hobby-actions">
+            ${addBtn}
+            <button class="btn-ghost" onclick="deleteHobby('${h.id}')">✕ Remove hobby</button>
+          </div>
+        </div>
+        <div class="${h.type === 'poem' ? 'poem-grid' : 'cards-grid'}" id="grid-${h.id}">
+        </div>
+      `;
+
+      c.appendChild(section);
+      renderItems(h);
+    });
+  }
+
+  function renderItems(h) {
+    const grid = document.getElementById('grid-' + h.id);
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    if (h.items.length === 0) {
+      grid.innerHTML = `<div class="empty-state">
+        <span class="empty-icon">${h.type === 'poem' ? '📜' : '🖼️'}</span>
+        <p>Nothing here yet.<br>Add your first ${h.type === 'poem' ? 'poem or piece of writing' : 'image'} to get started.</p>
+      </div>`;
+      return;
+    }
+
+    h.items.forEach((item, iIdx) => {
+      const el = document.createElement('div');
+      el.style.animationDelay = iIdx * 0.05 + 's';
+
+      if (h.type === 'image') {
+        el.className = 'card';
+        el.innerHTML = `
+          <button class="card-delete" onclick="deleteItem('${h.id}','${item.id}')">✕</button>
+          <div class="card-img-wrap">
+            ${item.src
+              ? `<img src="${item.src}" alt="${item.title}" loading="lazy" />`
+              : `<div class="card-placeholder"><span>${h.icon}</span></div>`}
+          </div>
+          <div class="card-body">
+            <div class="card-title">${item.title}</div>
+            <div class="card-date">${fmt(item.ts)}</div>
+          </div>`;
+      } else {
+        el.className = 'poem-card';
+        el.innerHTML = `
+          <button class="poem-delete" onclick="deleteItem('${h.id}','${item.id}')">✕</button>
+          <div class="poem-title">${item.title}</div>
+          <div class="poem-text">${escapeHtml(item.content)}</div>
+          <div class="poem-date">${fmt(item.ts)}</div>`;
+      }
+
+      grid.appendChild(el);
+    });
+  }
+
+  function escapeHtml(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ─── MODALS ──────────────────────────────────────────────────────────────
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  // Click backdrop to close
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); });
+  });
+
+  // ─── ADD HOBBY ───────────────────────────────────────────────────────────
+  function openAddHobbyModal() {
+    document.getElementById('hobbyName').value = '';
+    selectedIcon = '🎨';
+    document.querySelectorAll('.icon-opt').forEach(el => {
+      el.classList.toggle('selected', el.dataset.icon === selectedIcon);
+    });
+    openModal('addHobbyModal');
+  }
+
+  document.getElementById('iconPicker').addEventListener('click', e => {
+    const opt = e.target.closest('.icon-opt');
+    if (!opt) return;
+    selectedIcon = opt.dataset.icon;
+    document.querySelectorAll('.icon-opt').forEach(el => el.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+
+  function saveHobby() {
+    const name = document.getElementById('hobbyName').value.trim();
+    if (!name) { toast('Please enter a hobby name.'); return; }
+    const type = document.getElementById('hobbyType').value;
+    hobbies.push({ id: uid(), name, icon: selectedIcon, type, items: [] });
+    save();
+    render();
+    closeModal('addHobbyModal');
+    toast(`"${name}" added! ✨`);
+  }
+
+  function deleteHobby(hid) {
+    const h = hobbies.find(x => x.id === hid);
+    if (!h) return;
+    if (!confirm(`Remove the "${h.name}" hobby and all its content?`)) return;
+    hobbies = hobbies.filter(x => x.id !== hid);
+    save(); render();
+    toast('Hobby removed.');
+  }
+
+  // ─── ADD IMAGE ───────────────────────────────────────────────────────────
+  function openAddImageModal(hid) {
+    activeHobbyId = hid;
+    const h = hobbies.find(x => x.id === hid);
+    document.getElementById('addImageTitle').textContent = `Add to ${h.name}`;
+    document.getElementById('itemTitle').value = '';
+    document.getElementById('imageUpload').value = '';
+    document.getElementById('imagePreview').style.display = 'none';
+    openModal('addImageModal');
+  }
+
+  function handleImagePreview(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('previewImg').src = ev.target.result;
+      document.getElementById('imagePreview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveImageItem() {
+    const title = document.getElementById('itemTitle').value.trim();
+    if (!title) { toast('Please enter a title.'); return; }
+    const fileInput = document.getElementById('imageUpload');
+    const h = hobbies.find(x => x.id === activeHobbyId);
+    if (!h) return;
+
+    const save_ = (src) => {
+      h.items.unshift({ id: uid(), title, src, ts: Date.now() });
+      save(); renderItems(h);
+      // update count
+      const sec = document.getElementById('grid-' + h.id);
+      if (sec) {
+        const header = sec.previousElementSibling;
+        if (header) {
+          const cnt = header.querySelector('.hobby-count');
+          if (cnt) cnt.textContent = `${h.items.length} piece${h.items.length !== 1 ? 's' : ''}`;
+        }
+      }
+      closeModal('addImageModal');
+      toast(`"${title}" added to ${h.name}!`);
+      render(); // full re-render to update count in header
+    };
+
+    if (fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = ev => save_(ev.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      save_(null);
+    }
+  }
+
+  // ─── ADD POEM ────────────────────────────────────────────────────────────
+  function openAddPoemModal(hid) {
+    activeHobbyId = hid;
+    const h = hobbies.find(x => x.id === hid);
+    document.getElementById('addPoemTitle').textContent = `Add to ${h.name}`;
+    document.getElementById('poemTitle').value = '';
+    document.getElementById('poemContent').value = '';
+    openModal('addPoemModal');
+  }
+
+  function savePoemItem() {
+    const title = document.getElementById('poemTitle').value.trim();
+    const content = document.getElementById('poemContent').value.trim();
+    if (!title) { toast('Please enter a title.'); return; }
+    if (!content) { toast('Please enter some content.'); return; }
+    const h = hobbies.find(x => x.id === activeHobbyId);
+    if (!h) return;
+    h.items.unshift({ id: uid(), title, content, ts: Date.now() });
+    save(); render();
+    closeModal('addPoemModal');
+    toast(`"${title}" saved!`);
+  }
+
+  // ─── DELETE ITEM ─────────────────────────────────────────────────────────
+  function deleteItem(hid, iid) {
+    const h = hobbies.find(x => x.id === hid);
+    if (!h) return;
+    h.items = h.items.filter(x => x.id !== iid);
+    save(); render();
+    toast('Item removed.');
+  }
+
+  // ─── INIT ────────────────────────────────────────────────────────────────
+  render();
+</script>
+</body>
+</html>
